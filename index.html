@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#0f172a" />
-  <!-- PERBAIKAN BUG #9: Tambah apple-touch-icon -->
   <link rel="apple-touch-icon" href="./icons/icon-192.png" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -20,8 +19,6 @@
     <h1>💰 Keuangan Keluarga</h1>
     <span id="tgl-header"></span>
   </header>
-
-  <!-- PERBAIKAN BUG #10: Gunakan <div> untuk halaman, bukan duplikat <main> -->
 
   <!-- ===== HALAMAN DASHBOARD ===== -->
   <div id="hal-dashboard" class="halaman">
@@ -48,10 +45,8 @@
   <!-- ===== HALAMAN INPUT TRANSAKSI ===== -->
   <div id="hal-input" class="halaman">
 
-    <!-- PERBAIKAN BUG #8: Pakai tombol toggle sesuai desain CSS yang sudah ada -->
     <h2>Tipe Transaksi</h2>
     <div class="form-grup">
-      <!-- Hidden input menyimpan nilai aktual -->
       <input type="hidden" id="inp-tipe" value="keluar" />
       <div class="tipe-toggle">
         <button type="button" id="btn-tipe-keluar" class="aktif-keluar">➖ Pengeluaran</button>
@@ -64,17 +59,19 @@
       <select id="inp-kategori">
         <option>Memuat...</option>
       </select>
-      <div id="kategori-baru-wrap" style="display:none; margin-top:8px;">
+      <div id="kategori-baru-wrap" class="kategori-baru-wrap">
         <input type="text" id="inp-kategori-baru" placeholder="Nama kategori baru (contoh: BENSIN)" autocapitalize="characters" />
       </div>
     </div>
 
     <h2>Nominal</h2>
     <div class="form-grup">
-      <input type="text" id="inp-nominal" placeholder="Contoh: 50000 atau 50k atau 1.5jt" inputmode="decimal" autocomplete="off" />
+      <!-- FIX: inputmode="text" agar bisa ketik k/jt, konsisten dengan parseNominal() -->
+      <input type="text" id="inp-nominal" placeholder="Contoh: 50000 atau 50k atau 1.5jt" inputmode="text" autocomplete="off" />
+      <span class="input-hint">Bisa tulis: 50000 · 50k · 1.5jt · 1,500,000</span>
     </div>
 
-    <h2>Keterangan <span style="color:var(--text-muted); font-size:11px;">(opsional)</span></h2>
+    <h2>Keterangan <span class="label-opsional">(opsional)</span></h2>
     <div class="form-grup">
       <input type="text" id="inp-keterangan" placeholder="Contoh: makan siang, bensin NMAX" autocomplete="off" />
     </div>
@@ -87,7 +84,7 @@
   <div id="hal-riwayat" class="halaman">
 
     <h2>30 Transaksi Terbaru
-      <button id="btn-refresh-riwayat" style="float:right; background:none; border:none; color:var(--accent); font-size:12px; cursor:pointer; font-weight:600;">↻ Refresh</button>
+      <button id="btn-refresh-riwayat" class="btn-refresh">↻ Refresh</button>
     </h2>
     <div id="list-riwayat">
       <div class="skeleton"></div>
@@ -121,13 +118,13 @@
   <!-- TOAST NOTIFIKASI -->
   <div id="toast" class="toast"></div>
 
-  <!-- PERBAIKAN BUG #4: Dialog konfirmasi custom (pengganti confirm() native) -->
-  <div id="konfirmasi-overlay" style="display:none; position:fixed; inset:0; background:rgba(15,23,42,0.85); z-index:200; justify-content:center; align-items:center;">
-    <div style="background:var(--surface); border-radius:16px; padding:24px 20px; width:calc(100% - 48px); max-width:320px; box-shadow:0 8px 32px rgba(0,0,0,0.4);">
-      <p id="konfirmasi-teks" style="font-size:15px; line-height:1.5; margin-bottom:20px; text-align:center; white-space:pre-line;"></p>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-        <button id="konfirmasi-tidak" style="padding:12px; border-radius:10px; border:1px solid var(--surface2); background:var(--surface2); color:var(--text); font-size:14px; font-weight:600; cursor:pointer;">Batal</button>
-        <button id="konfirmasi-ya" style="padding:12px; border-radius:10px; border:none; background:var(--red-bg); color:var(--red); font-size:14px; font-weight:700; cursor:pointer;">Hapus</button>
+  <!-- DIALOG KONFIRMASI CUSTOM -->
+  <div id="konfirmasi-overlay" class="konfirmasi-overlay">
+    <div class="konfirmasi-box">
+      <p id="konfirmasi-teks" class="konfirmasi-teks"></p>
+      <div class="konfirmasi-aksi">
+        <button id="konfirmasi-tidak" class="btn-konfirmasi-batal">Batal</button>
+        <button id="konfirmasi-ya" class="btn-konfirmasi-hapus">Hapus</button>
       </div>
     </div>
   </div>

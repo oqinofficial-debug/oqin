@@ -28,22 +28,22 @@ body {
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
-  min-height: -webkit-fill-available; /* FIX: Safari mobile viewport */
+  min-height: -webkit-fill-available;
   max-width: 480px;
   margin: 0 auto;
-  -webkit-overflow-scrolling: touch; /* FIX: smooth scroll di Safari iOS */
+  -webkit-overflow-scrolling: touch;
 }
 
 /* ============ HEADER ============ */
 .app-header {
   background: var(--surface);
-  /* FIX: safe-area-inset-top agar judul tidak ketutup kamera/notch iPhone */
+  /* FIX: notch/kamera iPhone tidak nutup judul */
   padding-top: calc(16px + env(safe-area-inset-top));
   padding-left: 20px;
   padding-right: 20px;
   padding-bottom: 12px;
   border-bottom: 1px solid var(--surface2);
-  position: -webkit-sticky; /* FIX: Safari lama perlu prefix ini */
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 10;
@@ -53,7 +53,12 @@ body {
   font-weight: 700;
   letter-spacing: -0.3px;
 }
-.app-header span { color: var(--text-muted); font-weight: 400; font-size: 13px; display: block; }
+.app-header span {
+  color: var(--text-muted);
+  font-weight: 400;
+  font-size: 13px;
+  display: block;
+}
 
 /* ============ HALAMAN ============ */
 .halaman { display: none; padding: 16px 16px calc(var(--nav-height) + 16px); }
@@ -65,6 +70,12 @@ body {
   letter-spacing: 0.8px;
   color: var(--text-muted);
   margin: 20px 0 10px;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
 }
 .halaman h2:first-child { margin-top: 0; }
 
@@ -82,14 +93,14 @@ body {
   align-items: center;
 }
 .kartu-saldo.green { background: var(--green-bg); }
-.kartu-saldo.red { background: var(--red-bg); }
-.kartu-saldo.blue { background: var(--blue-bg); }
+.kartu-saldo.red   { background: var(--red-bg); }
+.kartu-saldo.blue  { background: var(--blue-bg); }
 
 .ks-label { font-size: 12px; color: rgba(255,255,255,0.7); font-weight: 500; }
 .ks-nilai { font-size: 20px; font-weight: 800; margin-top: 4px; }
 .kartu-saldo.green .ks-nilai { color: var(--green); }
-.kartu-saldo.red .ks-nilai { color: var(--red); }
-.kartu-saldo.blue .ks-nilai { color: var(--blue); }
+.kartu-saldo.red   .ks-nilai { color: var(--red); }
+.kartu-saldo.blue  .ks-nilai { color: var(--blue); }
 
 /* ============ RINCIAN KATEGORI ============ */
 .rincian-wrap {
@@ -109,13 +120,14 @@ body {
   border-bottom: 1px solid var(--surface2);
 }
 .kat-item:last-child { border-bottom: none; }
-.kat-nama { font-size: 14px; }
+.kat-nama    { font-size: 14px; }
 .kat-nominal { font-weight: 700; font-size: 14px; }
 .kat-nominal.green { color: var(--green); }
-.kat-nominal.red { color: var(--red); }
+.kat-nominal.red   { color: var(--red); }
 
 /* ============ FORM INPUT ============ */
 .form-grup { margin-bottom: 14px; }
+
 .form-grup label {
   display: block;
   font-size: 12px;
@@ -133,11 +145,11 @@ body {
   background: var(--surface);
   border: 1px solid var(--surface2);
   border-radius: 10px;
-  -webkit-border-radius: 10px; /* FIX: Safari render border-radius di input */
+  -webkit-border-radius: 10px;
   padding: 13px 14px;
   font-size: 16px; /* FIX: min 16px agar Safari tidak auto-zoom saat fokus */
   color: var(--text);
-  -webkit-appearance: none; /* FIX: hilangkan style default Safari/iOS */
+  -webkit-appearance: none;
   appearance: none;
   outline: none;
   -webkit-transition: border-color 0.2s;
@@ -148,12 +160,36 @@ body {
   border-color: var(--accent);
 }
 
-/* FIX: Custom arrow untuk select di Safari (appearance:none hilangkan arrow bawaan) */
+/* FIX: Custom arrow untuk select — appearance:none hilangkan arrow bawaan Safari */
 .form-grup select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2394a3b8' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 14px center;
   padding-right: 36px;
+}
+
+/* Hint teks di bawah input nominal */
+.input-hint {
+  display: block;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 6px;
+  padding-left: 2px;
+}
+
+/* Label opsional di samping judul */
+.label-opsional {
+  color: var(--text-muted);
+  font-size: 11px;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+
+/* Kategori baru wrap — hidden by default, JS toggle display */
+.kategori-baru-wrap {
+  display: none;
+  margin-top: 8px;
 }
 
 /* Tombol tipe transaksi (toggle style) */
@@ -173,9 +209,9 @@ body {
   cursor: pointer;
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
-  -webkit-appearance: none; /* FIX: hilangkan style button bawaan Safari */
+  -webkit-appearance: none;
   appearance: none;
-  -webkit-tap-highlight-color: transparent; /* FIX: hilangkan highlight tap iOS */
+  -webkit-tap-highlight-color: transparent;
 }
 .tipe-toggle button.aktif-keluar {
   border-color: var(--red);
@@ -187,8 +223,6 @@ body {
   background: var(--green-bg);
   color: var(--green);
 }
-
-#kategori-baru-wrap { margin-top: 8px; }
 
 /* Tombol simpan */
 .btn-simpan {
@@ -204,12 +238,26 @@ body {
   margin-top: 8px;
   -webkit-transition: opacity 0.2s;
   transition: opacity 0.2s;
-  -webkit-appearance: none; /* FIX: Safari button style */
+  -webkit-appearance: none;
   appearance: none;
   -webkit-tap-highlight-color: transparent;
 }
 .btn-simpan:disabled { opacity: 0.5; cursor: default; }
-.btn-simpan:active { opacity: 0.85; }
+.btn-simpan:active   { opacity: 0.85; }
+
+/* ============ TOMBOL REFRESH RIWAYAT ============ */
+.btn-refresh {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  padding: 0;
+}
 
 /* ============ RIWAYAT TRANSAKSI ============ */
 .item-transaksi {
@@ -260,7 +308,7 @@ body {
 }
 .it-nominal { font-weight: 800; font-size: 14px; }
 .it-nominal.green { color: var(--green); }
-.it-nominal.red { color: var(--red); }
+.it-nominal.red   { color: var(--red); }
 
 .btn-hapus {
   background: none;
@@ -272,7 +320,7 @@ body {
   -webkit-transition: opacity 0.2s;
   transition: opacity 0.2s;
   border-radius: 6px;
-  -webkit-appearance: none; /* FIX: Safari button */
+  -webkit-appearance: none;
   appearance: none;
   -webkit-tap-highlight-color: transparent;
 }
@@ -287,7 +335,6 @@ body {
   transform: translateX(-50%);
   width: 100%;
   max-width: 480px;
-  /* FIX: Hitung tinggi + safe area untuk iPhone notch & home indicator */
   height: calc(var(--nav-height) + env(safe-area-inset-bottom));
   background: var(--surface);
   border-top: 1px solid var(--surface2);
@@ -299,7 +346,6 @@ body {
   justify-content: space-around;
   z-index: 20;
   padding-top: 10px;
-  /* FIX: safe-area untuk iPhone (notch, dynamic island, home bar) */
   padding-bottom: env(safe-area-inset-bottom);
 }
 
@@ -322,7 +368,7 @@ body {
   -webkit-transition: color 0.2s;
   transition: color 0.2s;
   -webkit-tap-highlight-color: transparent;
-  -webkit-appearance: none; /* FIX: hilangkan style button bawaan Safari */
+  -webkit-appearance: none;
   appearance: none;
 }
 .nav-tab .nav-ikon { font-size: 22px; }
@@ -332,7 +378,7 @@ body {
 #loading {
   display: none;
   position: fixed;
-  /* FIX: Ganti 'inset' shorthand — tidak didukung Safari lama */
+  /* FIX: ganti inset shorthand — tidak support Safari lama */
   top: 0;
   right: 0;
   bottom: 0;
@@ -344,14 +390,10 @@ body {
   align-items: center;
   z-index: 100;
 }
-/* FIX: Saat aktif tampilkan sebagai flex */
-#loading.aktif {
-  display: -webkit-flex;
-  display: flex;
-}
 
 .spinner {
-  width: 40px; height: 40px;
+  width: 40px;
+  height: 40px;
   border: 3px solid var(--surface2);
   border-top-color: var(--accent);
   border-radius: 50%;
@@ -359,7 +401,7 @@ body {
   animation: spin 0.8s linear infinite;
 }
 @-webkit-keyframes spin { to { -webkit-transform: rotate(360deg); transform: rotate(360deg); } }
-@keyframes spin { to { -webkit-transform: rotate(360deg); transform: rotate(360deg); } }
+@keyframes spin          { to { -webkit-transform: rotate(360deg); transform: rotate(360deg); } }
 
 /* ============ TOAST NOTIFIKASI ============ */
 .toast {
@@ -398,10 +440,77 @@ body {
   animation: pulse 1.2s ease-in-out infinite;
 }
 @-webkit-keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+@keyframes pulse          { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+/* ============ DIALOG KONFIRMASI ============ */
+.konfirmasi-overlay {
+  display: none;
+  position: fixed;
+  /* FIX: ganti inset shorthand */
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(15, 23, 42, 0.85);
+  z-index: 200;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+.konfirmasi-overlay.aktif {
+  display: -webkit-flex;
+  display: flex;
+}
+.konfirmasi-box {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 24px 20px;
+  width: calc(100% - 48px);
+  max-width: 320px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+.konfirmasi-teks {
+  font-size: 15px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  text-align: center;
+  white-space: pre-line;
+}
+.konfirmasi-aksi {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.btn-konfirmasi-batal {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid var(--surface2);
+  background: var(--surface2);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-konfirmasi-hapus {
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: var(--red-bg);
+  color: var(--red);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
 
 /* ============ MISC ============ */
 .kosong { text-align: center; color: var(--text-muted); font-size: 13px; padding: 20px; }
-.error { color: var(--red); font-size: 13px; padding: 10px; }
-.green { color: var(--green); }
-.red { color: var(--red); }
+.error  { color: var(--red); font-size: 13px; padding: 10px; }
+.green  { color: var(--green); }
+.red    { color: var(--red); }
