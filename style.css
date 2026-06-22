@@ -37,7 +37,11 @@ body {
 /* ============ HEADER ============ */
 .app-header {
   background: var(--surface);
-  padding: 16px 20px 12px;
+  /* FIX: safe-area-inset-top agar judul tidak ketutup kamera/notch iPhone */
+  padding-top: calc(16px + env(safe-area-inset-top));
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 12px;
   border-bottom: 1px solid var(--surface2);
   position: -webkit-sticky; /* FIX: Safari lama perlu prefix ini */
   position: sticky;
