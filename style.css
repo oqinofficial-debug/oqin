@@ -18,13 +18,20 @@
   --nav-height: 64px;
 }
 
+/* FIX: Safari iOS viewport height */
+html {
+  height: -webkit-fill-available;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
+  min-height: -webkit-fill-available; /* FIX: Safari mobile viewport */
   max-width: 480px;
   margin: 0 auto;
+  -webkit-overflow-scrolling: touch; /* FIX: smooth scroll di Safari iOS */
 }
 
 /* ============ HEADER ============ */
@@ -32,6 +39,7 @@ body {
   background: var(--surface);
   padding: 16px 20px 12px;
   border-bottom: 1px solid var(--surface2);
+  position: -webkit-sticky; /* FIX: Safari lama perlu prefix ini */
   position: sticky;
   top: 0;
   z-index: 10;
@@ -62,8 +70,11 @@ body {
 .kartu-saldo {
   border-radius: var(--radius);
   padding: 16px;
+  display: -webkit-flex;
   display: flex;
+  -webkit-justify-content: space-between;
   justify-content: space-between;
+  -webkit-align-items: center;
   align-items: center;
 }
 .kartu-saldo.green { background: var(--green-bg); }
@@ -84,8 +95,11 @@ body {
 }
 
 .kat-item {
+  display: -webkit-flex;
   display: flex;
+  -webkit-justify-content: space-between;
   justify-content: space-between;
+  -webkit-align-items: center;
   align-items: center;
   padding: 12px 16px;
   border-bottom: 1px solid var(--surface2);
@@ -115,17 +129,27 @@ body {
   background: var(--surface);
   border: 1px solid var(--surface2);
   border-radius: 10px;
+  -webkit-border-radius: 10px; /* FIX: Safari render border-radius di input */
   padding: 13px 14px;
-  font-size: 16px;
+  font-size: 16px; /* FIX: min 16px agar Safari tidak auto-zoom saat fokus */
   color: var(--text);
+  -webkit-appearance: none; /* FIX: hilangkan style default Safari/iOS */
   appearance: none;
-  -webkit-appearance: none;
   outline: none;
+  -webkit-transition: border-color 0.2s;
   transition: border-color 0.2s;
 }
 .form-grup select:focus,
 .form-grup input:focus {
   border-color: var(--accent);
+}
+
+/* FIX: Custom arrow untuk select di Safari (appearance:none hilangkan arrow bawaan) */
+.form-grup select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2394a3b8' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
 }
 
 /* Tombol tipe transaksi (toggle style) */
@@ -143,7 +167,11 @@ body {
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
+  -webkit-transition: all 0.2s;
   transition: all 0.2s;
+  -webkit-appearance: none; /* FIX: hilangkan style button bawaan Safari */
+  appearance: none;
+  -webkit-tap-highlight-color: transparent; /* FIX: hilangkan highlight tap iOS */
 }
 .tipe-toggle button.aktif-keluar {
   border-color: var(--red);
@@ -170,15 +198,22 @@ body {
   font-weight: 700;
   cursor: pointer;
   margin-top: 8px;
+  -webkit-transition: opacity 0.2s;
   transition: opacity 0.2s;
+  -webkit-appearance: none; /* FIX: Safari button style */
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
 }
 .btn-simpan:disabled { opacity: 0.5; cursor: default; }
 .btn-simpan:active { opacity: 0.85; }
 
 /* ============ RIWAYAT TRANSAKSI ============ */
 .item-transaksi {
+  display: -webkit-flex;
   display: flex;
+  -webkit-justify-content: space-between;
   justify-content: space-between;
+  -webkit-align-items: center;
   align-items: center;
   padding: 14px 16px;
   background: var(--surface);
@@ -186,14 +221,39 @@ body {
   margin-bottom: 8px;
 }
 
-.it-kiri { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
-.it-simbol { font-size: 18px; flex-shrink: 0; }
-.it-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.it-kiri {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  gap: 12px;
+  -webkit-flex: 1;
+  flex: 1;
+  min-width: 0;
+}
+.it-simbol { font-size: 18px; -webkit-flex-shrink: 0; flex-shrink: 0; }
+.it-info {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
 .it-kat { font-weight: 700; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .it-ket { font-size: 12px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .it-tgl { font-size: 11px; color: var(--text-muted); margin-top: 1px; opacity: 0.7; }
 
-.it-kanan { display: flex; align-items: center; gap: 8px; flex-shrink: 0; margin-left: 10px; }
+.it-kanan {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  gap: 8px;
+  -webkit-flex-shrink: 0;
+  flex-shrink: 0;
+  margin-left: 10px;
+}
 .it-nominal { font-weight: 800; font-size: 14px; }
 .it-nominal.green { color: var(--green); }
 .it-nominal.red { color: var(--red); }
@@ -205,8 +265,12 @@ body {
   cursor: pointer;
   padding: 4px 6px;
   opacity: 0.5;
+  -webkit-transition: opacity 0.2s;
   transition: opacity 0.2s;
   border-radius: 6px;
+  -webkit-appearance: none; /* FIX: Safari button */
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
 }
 .btn-hapus:active { opacity: 1; }
 
@@ -215,23 +279,32 @@ body {
   position: fixed;
   bottom: 0;
   left: 50%;
+  -webkit-transform: translateX(-50%);
   transform: translateX(-50%);
   width: 100%;
   max-width: 480px;
-  height: var(--nav-height);
+  /* FIX: Hitung tinggi + safe area untuk iPhone notch & home indicator */
+  height: calc(var(--nav-height) + env(safe-area-inset-bottom));
   background: var(--surface);
   border-top: 1px solid var(--surface2);
+  display: -webkit-flex;
   display: flex;
-  align-items: center;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+  -webkit-justify-content: space-around;
   justify-content: space-around;
   z-index: 20;
-  /* Aman untuk notch iPhone */
+  padding-top: 10px;
+  /* FIX: safe-area untuk iPhone (notch, dynamic island, home bar) */
   padding-bottom: env(safe-area-inset-bottom);
 }
 
 .nav-tab {
+  display: -webkit-flex;
   display: flex;
+  -webkit-flex-direction: column;
   flex-direction: column;
+  -webkit-align-items: center;
   align-items: center;
   gap: 4px;
   padding: 8px 20px;
@@ -242,8 +315,11 @@ body {
   font-size: 11px;
   font-weight: 600;
   border-radius: 10px;
+  -webkit-transition: color 0.2s;
   transition: color 0.2s;
   -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none; /* FIX: hilangkan style button bawaan Safari */
+  appearance: none;
 }
 .nav-tab .nav-ikon { font-size: 22px; }
 .nav-tab.aktif { color: var(--accent); }
@@ -252,26 +328,41 @@ body {
 #loading {
   display: none;
   position: fixed;
-  inset: 0;
+  /* FIX: Ganti 'inset' shorthand — tidak didukung Safari lama */
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   background: rgba(15, 23, 42, 0.8);
+  -webkit-justify-content: center;
   justify-content: center;
+  -webkit-align-items: center;
   align-items: center;
   z-index: 100;
 }
+/* FIX: Saat aktif tampilkan sebagai flex */
+#loading.aktif {
+  display: -webkit-flex;
+  display: flex;
+}
+
 .spinner {
   width: 40px; height: 40px;
   border: 3px solid var(--surface2);
   border-top-color: var(--accent);
   border-radius: 50%;
+  -webkit-animation: spin 0.8s linear infinite;
   animation: spin 0.8s linear infinite;
 }
-@keyframes spin { to { transform: rotate(360deg); } }
+@-webkit-keyframes spin { to { -webkit-transform: rotate(360deg); transform: rotate(360deg); } }
+@keyframes spin { to { -webkit-transform: rotate(360deg); transform: rotate(360deg); } }
 
 /* ============ TOAST NOTIFIKASI ============ */
 .toast {
   position: fixed;
   bottom: calc(var(--nav-height) + 12px);
   left: 50%;
+  -webkit-transform: translateX(-50%) translateY(20px);
   transform: translateX(-50%) translateY(20px);
   background: var(--surface2);
   color: var(--text);
@@ -280,12 +371,17 @@ body {
   font-size: 14px;
   font-weight: 600;
   opacity: 0;
+  -webkit-transition: all 0.3s;
   transition: all 0.3s;
   z-index: 50;
   white-space: nowrap;
   pointer-events: none;
 }
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast.show {
+  opacity: 1;
+  -webkit-transform: translateX(-50%) translateY(0);
+  transform: translateX(-50%) translateY(0);
+}
 .toast.error { background: var(--red-bg); color: var(--red); }
 
 /* ============ SKELETON LOADING ============ */
@@ -294,8 +390,10 @@ body {
   background: var(--surface);
   border-radius: var(--radius);
   margin-bottom: 10px;
+  -webkit-animation: pulse 1.2s ease-in-out infinite;
   animation: pulse 1.2s ease-in-out infinite;
 }
+@-webkit-keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
 /* ============ MISC ============ */
