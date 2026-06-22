@@ -1,4 +1,4 @@
-const CACHE_NAME = "keuangan-v3";
+const CACHE_NAME = "keuangan-v4";
 
 // PERBAIKAN BUG #12: Hapus icon dari FILES_TO_CACHE agar install tidak gagal
 // jika file icon belum ada. Icon bisa di-cache saat pertama kali dimuat.
